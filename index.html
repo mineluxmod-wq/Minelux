@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minelux - مودات وعوالم ماينكرافت</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --accent: #ff6b6b;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--dark) 0%, #16213e 100%);
+            color: var(--light);
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        /* الهيدر */
+        header {
+            background: rgba(26, 26, 46, 0.95);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid rgba(106, 17, 203, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+            padding: 8px 15px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after, nav a.active::after {
+            width: 100%;
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            display: flex;
+            min-height: calc(100vh - 180px);
+            padding: 20px 0;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: rgba(26, 26, 46, 0.8);
+            padding: 25px 20px;
+            border-left: 1px solid rgba(106, 17, 203, 0.3);
+            height: fit-content;
+            border-radius: 0 0 0 15px;
+            box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .content {
+            flex: 1;
+            padding: 0 30px;
+        }
+
+        .section-title {
+            font-size: 32px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary);
+            color: var(--light);
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        /* نظام التصفية */
+        .filter-section {
+            background: rgba(38, 37, 65, 0.7);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-group {
+            margin-bottom: 20px;
+        }
+
+        .filter-group h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: var(--accent);
+            padding-right: 10px;
+            border-right: 3px solid var(--primary);
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background: rgba(106, 17, 203, 0.25);
+            border: none;
+            border-radius: 8px;
+            color: var(--light);
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3);
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 14px 20px;
+            padding-left: 50px;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            font-size: 16px;
+            border: 1px solid rgba(106, 17, 203, 0.3);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        /* عرض المحتوى */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .content-card {
+            background: rgba(26, 26, 46, 0.85);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(106, 17, 203, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .content-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-image {
+            width: 100%;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .content-card:hover .card-image img {
+            transform: scale(1.08);
+        }
+
+        .card-content {
+            padding: 25px;
+        }
+
+        .card-title {
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: var(--light);
+            line-height: 1.3;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            color: var(--gray);
+            font-size: 15px;
+        }
+
+        .card-type {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3);
+        }
+
+        .download-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(106, 17, 203, 0.4);
+        }
+
+        /* الفوتر */
+        footer {
+            background: rgba(26, 26, 46, 0.95);
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 2px solid rgba(106, 17, 203, 0.5);
+            margin-top: 60px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .social-icons a {
+            color: var(--light);
+            font-size: 26px;
+            transition: 0.3s;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(106, 17, 203, 0.2);
+        }
+
+        .social-icons a:hover {
+            color: var(--accent);
+            transform: scale(1.1);
+            background: rgba(106, 17, 203, 0.3);
+        }
+
+        /* صفحة المودات */
+        .mods-page .filter-section {
+            border-right: 3px solid var(--primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                border-left: none;
+                border-bottom: 1px solid rgba(106, 17, 203, 0.3);
+                border-radius: 0 0 15px 15px;
+                margin-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            nav ul {
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content {
+                padding: 0 15px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body class="mods-page">
+    <!-- الهيدر -->
+    <header>
+        <div class="logo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3c.wzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTI1IDVDMTQuNzg2NSA1IDYuNSAxMy4yODY1IDYuNSAyMy41QzYuNSAzMy43MTM1IDE0Ljc4NjUgNDIgMjUgNDJDMzUuMjEzNSA0MiA0My41IDMzLjcxMzUgNDMuNSAyMy41QzQzLjUgMTMuMjg2NSAzNS4yMTM1IDUgMjUgNVoiIGZpbGw9InVybCgjcGFpbnQwX2xpbmVhcikiLz4KPHBhdGggZD0iTTM1IDIwTDI1IDMwTDE1IDIwIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDBfbGluZWFyIiB4MT0iMjUiIHkxPSI1IiB4Mj0iMjUiIHkyPSI0MiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjNmExMWNiIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzI1NzVmYyIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=" alt="Minelux Logo">
+            <span class="logo-text">Minelux</span>
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active"><i class="fas fa-cube"></i> المودات</a></li>
+                <li><a href="world.html"><i class="fas fa-globe"></i> العوالم</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <div class="main-content">
+        <!-- الشريط الجانبي للتصفية -->
+        <aside class="sidebar">
+            <h2>تصفية المودات</h2>
+            
+            <!-- مربع البحث -->
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="ابحث عن مود...">
+            </div>
+            
+            <!-- قسم المودات -->
+            <div class="filter-section">
+                <h3>المودات</h3>
+                
+                <div class="filter-group">
+                    <h3>الإصدار</h3>
+                    <div class="filter-options">
+                        <button class="filter-btn active">الكل</button>
+                        <button class="filter-btn">1.20+</button>
+                        <button class="filter-btn">1.21+</button>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3>النوع</h3>
+                    <div class="filter-options">
+                        <button class="filter-btn active">الكل</button>
+                        <button class="filter-btn">أداة</button>
+                        <button class="filter-btn">أدوات</button>
+                        <button class="filter-btn">Resource Pack</button>
+                        <button class="filter-btn">Behavior Pack</button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- محتوى المودات -->
+        <main class="content">
+            <h2 class="section-title">أحدث المودات</h2>
+            
+            <div class="content-grid">
+                <!-- مود 1 -->
+                <div class="content-card">
+                    <div class="card-image">
+                        <img src="https://i.ibb.co/23QtdkTt/QNOqJ0G.png" alt="Mod 1">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">مود الهمر / Hammer mod</h3>
+                        <div class="card-meta">
+                            <span>1.21.92+</span>
+                            <span class="card-type">Resource Pack</span>
+                        </div>
+                        <a href="https://link-target.net/1387962/7H7J8PVBhE1N" class="download-btn">تحميل المود</a>
+                    </div>
+                </div>
+                
+                <!-- مود 2 -->
+                <div class="content-card">
+                    <div class="card-image">
+                        <img src="https://i.imgur.com/8aZbQnL.jpeg" alt="Mod 2">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">أداة التعدين المتقدمة</h3>
+                        <div class="card-meta">
+                            <span>1.20.1+</span>
+                            <span class="card-type">أداة</span>
+                        </div>
+                        <a href="https://example.com/download/mod2" class="download-btn">تحميل المود</a>
+                    </div>
+                </div>
+
+                <!-- مود 3 -->
+                <div class="content-card">
+                    <div class="card-image">
+                        <img src="https://i.imgur.com/8aZbQnL.jpeg" alt="Mod 3">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">حزمة الوحوش الأسطورية</h3>
+                        <div class="card-meta">
+                            <span>1.21+</span>
+                            <span class="card-type">Behavior Pack</span>
+                        </div>
+                        <a href="https://example.com/download/mod3" class="download-btn">تحميل المود</a>
+                    </div>
+                </div>
+
+                <!-- مود 4 -->
+                <div class="content-card">
+                    <div class="card-image">
+                        <img src="https://i.imgur.com/8aZbQnL.jpeg" alt="Mod 4">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">القفاز السحري</h3>
+                        <div class="card-meta">
+                            <span>1.20.4+</span>
+                            <span class="card-type">Resource Pack</span>
+                        </div>
+                        <a href="https://example.com/download/mod4" class="download-btn">تحميل المود</a>
+                    </div>
+                </div>
+
+                <!-- مود 5 -->
+                <div class="content-card">
+                    <div class="card-image">
+                        <img src="https://i.imgur.com/8aZbQnL.jpeg" alt="Mod 5">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">أسلحة المستقبل</h3>
+                        <div class="card-meta">
+                            <span>1.21+</span>
+                            <span class="card-type">أدوات</span>
+                        </div>
+                        <a href="https://example.com/download/mod5" class="download-btn">تحميل المود</a>
+                    </div>
+                </div>
+
+                <!-- مود 6 -->
+                <div class="content-card">
+                    <div class="card-image">
+                        <img src="https://i.imgur.com/8aZbQnL.jpeg" alt="Mod 6">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">الطاقة الخارقة</h3>
+                        <div class="card-meta">
+                            <span>1.20.2+</span>
+                            <span class="card-type">Behavior Pack</span>
+                        </div>
+                        <a href="https://example.com/download/mod6" class="download-btn">تحميل المود</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- الفوتر -->
+    <footer>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-discord"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+        <p>© 2024 Minelux. جميع الحقوق محفوظة. هذا الموقع غير مرتبط بـ Mojang Studios</p>
+    </footer>
+
+    <script>
+        // كود JavaScript للتحكم في التصفية
+        document.addEventListener('DOMContentLoaded', function() {
+            // تفعيل أزرار التصفية
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // إزالة النشاط من جميع الأزرار في المجموعة
+                    const parentSection = this.closest('.filter-options');
+                    const siblings = parentSection.querySelectorAll('.filter-btn');
+                    siblings.forEach(btn => btn.classList.remove('active'));
+                    
+                    // إضافة النشاط للزر المحدد
+                    this.classList.add('active');
+                    
+                    // هنا يمكنك إضافة كود التصفية الفعلي
+                    filterContent();
+                });
+            });
+            
+            // وظيفة تصفية المحتوى
+            function filterContent() {
+                // كود التصفية سيتم تنفيذه هنا
+                console.log('تم تصفية المحتوى حسب الاختيارات');
+            }
+        });
+    </script>
+</body>
+</html>
