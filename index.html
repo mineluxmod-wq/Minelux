@@ -28,6 +28,7 @@
             overflow-x: hidden;
             position: relative;
             line-height: 1.6;
+            min-height: 100vh;
         }
 
         /* الهيدر */
@@ -298,6 +299,22 @@
             box-shadow: 0 8px 20px rgba(106, 17, 203, 0.4);
         }
 
+        /* رسالة عدم وجود نتائج */
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            grid-column: 1 / -1;
+            color: var(--gray);
+            font-size: 18px;
+        }
+
+        .no-results i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            display: block;
+            color: var(--accent);
+        }
+
         /* الفوتر */
         footer {
             background: rgba(26, 26, 46, 0.95);
@@ -384,7 +401,8 @@
     <!-- الهيدر -->
     <header>
         <div class="logo">
-            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3c.wzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTI1IDVDMTQuNzg2NSA1IDYuNSAxMy4yODY1IDYuNSAyMy41QzYuNSAzMy43MTM1IDE0Ljc4NjUgNDIgMjUgNDJDMzUuMjEzNSA0MiA0My41IDMzLjcxMzUgNDMuNSAyMy41QzQzLjUgMTMuMjg2NSAzNS4yMTM1IDUgMjUgNVoiIGZpbGw9InVybCgjcGFpbnQwX2xpbmVhcikiLz4KPHBhdGggZD0iTTM1IDIwTDI1IDMwTDE1IDIwIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDBfbGluZWFyIiB4MT0iMjUiIHkxPSI1IiB4Mj0iMjUiIHkyPSI0MiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjNmExMWNiIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzI1NzVmYyIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=" alt="Minelux Logo">
+            <!-- تم استبدال الشعار القديم بالشعار الجديد -->
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiByeD0iMTAiIGZpbGw9InVybCgjcGFpbnQwX2xpbmVhcikiLz4KPHBhdGggZD0iTTE1IDM1TDI1IDI1TDM1IDE1IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8cGF0aCBkPSJNMTUgMTVMMzUgMzUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MF9saW5lYXIiIHgxPSIyNSIgeTE9IjAiIHgyPSIyNSIgeTI9IjUwIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIHN0b3AtY29sb3I9IiM2YTExY2IiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMjU3NWZjIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPC9zdmc+Cg==" alt="Minelux Logo">
             <span class="logo-text">Minelux</span>
         </div>
         
@@ -405,7 +423,7 @@
             <!-- مربع البحث -->
             <div class="search-box">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="ابحث عن مود...">
+                <input type="text" id="search-input" placeholder="ابحث عن مود...">
             </div>
             
             <!-- قسم المودات -->
@@ -414,21 +432,21 @@
                 
                 <div class="filter-group">
                     <h3>الإصدار</h3>
-                    <div class="filter-options">
-                        <button class="filter-btn active">الكل</button>
-                        <button class="filter-btn">1.20+</button>
-                        <button class="filter-btn">1.21+</button>
+                    <div class="filter-options" data-filter="version">
+                        <button class="filter-btn active" data-value="all">الكل</button>
+                        <button class="filter-btn" data-value="1.20">1.20+</button>
+                        <button class="filter-btn" data-value="1.21">1.21+</button>
                     </div>
                 </div>
                 
                 <div class="filter-group">
                     <h3>النوع</h3>
-                    <div class="filter-options">
-                        <button class="filter-btn active">الكل</button>
-                        <button class="filter-btn">أداة</button>
-                        <button class="filter-btn">أدوات</button>
-                        <button class="filter-btn">Resource Pack</button>
-                        <button class="filter-btn">Behavior Pack</button>
+                    <div class="filter-options" data-filter="type">
+                        <button class="filter-btn active" data-value="all">الكل</button>
+                        <button class="filter-btn" data-value="أداة">أداة</button>
+                        <button class="filter-btn" data-value="أدوات">أدوات</button>
+                        <button class="filter-btn" data-value="Resource Pack">Resource Pack</button>
+                        <button class="filter-btn" data-value="Behavior Pack">Behavior Pack</button>
                     </div>
                 </div>
             </div>
@@ -438,96 +456,8 @@
         <main class="content">
             <h2 class="section-title">أحدث المودات</h2>
             
-            <div class="content-grid">
-                <!-- مود 1 -->
-                <div class="content-card">
-                    <div class="card-image">
-                        <img src="https://i.ibb.co/23QtdkTt/QNOqJ0G.png" alt="Mod 1">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">مود الهمر / Hammer mod</h3>
-                        <div class="card-meta">
-                            <span>1.21.92+</span>
-                            <span class="card-type">Resource Pack</span>
-                        </div>
-                        <a href="https://link-target.net/1387962/7H7J8PVBhE1N" class="download-btn">تحميل المود</a>
-                    </div>
-                </div>
-                
-                <!-- مود 2 -->
-                <div class="content-card">
-                    <div class="card-image">
-                        <img src="https://i.imgur.com/8aZbQnL.jpeg" alt="Mod 2">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">أداة التعدين المتقدمة</h3>
-                        <div class="card-meta">
-                            <span>1.20.1+</span>
-                            <span class="card-type">أداة</span>
-                        </div>
-                        <a href="https://example.com/download/mod2" class="download-btn">تحميل المود</a>
-                    </div>
-                </div>
-
-                <!-- مود 3 -->
-                <div class="content-card">
-                    <div class="card-image">
-                        <img src="https://i.imgur.com/8aZbQnL.jpeg" alt="Mod 3">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">حزمة الوحوش الأسطورية</h3>
-                        <div class="card-meta">
-                            <span>1.21+</span>
-                            <span class="card-type">Behavior Pack</span>
-                        </div>
-                        <a href="https://example.com/download/mod3" class="download-btn">تحميل المود</a>
-                    </div>
-                </div>
-
-                <!-- مود 4 -->
-                <div class="content-card">
-                    <div class="card-image">
-                        <img src="https://i.imgur.com/8aZbQnL.jpeg" alt="Mod 4">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">القفاز السحري</h3>
-                        <div class="card-meta">
-                            <span>1.20.4+</span>
-                            <span class="card-type">Resource Pack</span>
-                        </div>
-                        <a href="https://example.com/download/mod4" class="download-btn">تحميل المود</a>
-                    </div>
-                </div>
-
-                <!-- مود 5 -->
-                <div class="content-card">
-                    <div class="card-image">
-                        <img src="https://i.imgur.com/8aZbQnL.jpeg" alt="Mod 5">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">أسلحة المستقبل</h3>
-                        <div class="card-meta">
-                            <span>1.21+</span>
-                            <span class="card-type">أدوات</span>
-                        </div>
-                        <a href="https://example.com/download/mod5" class="download-btn">تحميل المود</a>
-                    </div>
-                </div>
-
-                <!-- مود 6 -->
-                <div class="content-card">
-                    <div class="card-image">
-                        <img src="https://i.imgur.com/8aZbQnL.jpeg" alt="Mod 6">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">الطاقة الخارقة</h3>
-                        <div class="card-meta">
-                            <span>1.20.2+</span>
-                            <span class="card-type">Behavior Pack</span>
-                        </div>
-                        <a href="https://example.com/download/mod6" class="download-btn">تحميل المود</a>
-                    </div>
-                </div>
+            <div class="content-grid" id="mods-container">
+                <!-- سيتم ملء هذا القسم ديناميكيًا باستخدام JavaScript -->
             </div>
         </main>
     </div>
@@ -543,31 +473,182 @@
     </footer>
 
     <script>
-        // كود JavaScript للتحكم في التصفية
+        // بيانات المودات
+        const modsData = [
+            {
+                id: 1,
+                title: "مود الهمر / Hammer mod",
+                version: "1.21.92+",
+                type: "Resource Pack",
+                image: "https://i.ibb.co/23QtdkTt/QNOqJ0G.png",
+                downloadLink: "https://link-target.net/1387962/7H7J8PVBhE1N"
+            },
+            {
+                id: 2,
+                title: "أداة التعدين المتقدمة",
+                version: "1.20.1+",
+                type: "أداة",
+                image: "https://i.imgur.com/8aZbQnL.jpeg",
+                downloadLink: "https://example.com/download/mod2"
+            },
+            {
+                id: 3,
+                title: "حزمة الوحوش الأسطورية",
+                version: "1.21+",
+                type: "Behavior Pack",
+                image: "https://i.imgur.com/8aZbQnL.jpeg",
+                downloadLink: "https://example.com/download/mod3"
+            },
+            {
+                id: 4,
+                title: "القفاز السحري",
+                version: "1.20.4+",
+                type: "Resource Pack",
+                image: "https://i.imgur.com/8aZbQnL.jpeg",
+                downloadLink: "https://example.com/download/mod4"
+            },
+            {
+                id: 5,
+                title: "أسلحة المستقبل",
+                version: "1.21+",
+                type: "أدوات",
+                image: "https://i.imgur.com/8aZbQnL.jpeg",
+                downloadLink: "https://example.com/download/mod5"
+            },
+            {
+                id: 6,
+                title: "الطاقة الخارقة",
+                version: "1.20.2+",
+                type: "Behavior Pack",
+                image: "https://i.imgur.com/8aZbQnL.jpeg",
+                downloadLink: "https://example.com/download/mod6"
+            }
+        ];
+
+        // متغيرات التصفية
+        let currentFilters = {
+            version: 'all',
+            type: 'all',
+            search: ''
+        };
+
+        // تهيئة الصفحة
         document.addEventListener('DOMContentLoaded', function() {
-            // تفعيل أزرار التصفية
+            // عرض المودات أول مرة
+            renderMods(modsData);
+            
+            // إعداد أحداث التصفية
+            setupFilterEvents();
+            
+            // إعداد حدث البحث
+            setupSearchEvent();
+        });
+
+        // إعداد أحداث التصفية
+        function setupFilterEvents() {
             const filterButtons = document.querySelectorAll('.filter-btn');
+            
             filterButtons.forEach(button => {
                 button.addEventListener('click', function() {
+                    const filterGroup = this.closest('.filter-options');
+                    const filterType = filterGroup.dataset.filter;
+                    const filterValue = this.dataset.value;
+                    
                     // إزالة النشاط من جميع الأزرار في المجموعة
-                    const parentSection = this.closest('.filter-options');
-                    const siblings = parentSection.querySelectorAll('.filter-btn');
+                    const siblings = filterGroup.querySelectorAll('.filter-btn');
                     siblings.forEach(btn => btn.classList.remove('active'));
                     
                     // إضافة النشاط للزر المحدد
                     this.classList.add('active');
                     
-                    // هنا يمكنك إضافة كود التصفية الفعلي
-                    filterContent();
+                    // تحديث الفلتر الحالي
+                    currentFilters[filterType] = filterValue;
+                    
+                    // تطبيق التصفية
+                    applyFilters();
                 });
             });
+        }
+
+        // إعداد حدث البحث
+        function setupSearchEvent() {
+            const searchInput = document.getElementById('search-input');
             
-            // وظيفة تصفية المحتوى
-            function filterContent() {
-                // كود التصفية سيتم تنفيذه هنا
-                console.log('تم تصفية المحتوى حسب الاختيارات');
+            searchInput.addEventListener('input', function() {
+                currentFilters.search = this.value.trim().toLowerCase();
+                applyFilters();
+            });
+        }
+
+        // تطبيق جميع عوامل التصفية
+        function applyFilters() {
+            let filteredMods = modsData.filter(mod => {
+                // تصفية حسب الإصدار
+                if (currentFilters.version !== 'all') {
+                    const versionFilter = currentFilters.version;
+                    if (versionFilter === '1.20' && !mod.version.includes('1.20')) {
+                        return false;
+                    }
+                    if (versionFilter === '1.21' && !mod.version.includes('1.21')) {
+                        return false;
+                    }
+                }
+                
+                // تصفية حسب النوع
+                if (currentFilters.type !== 'all' && mod.type !== currentFilters.type) {
+                    return false;
+                }
+                
+                // تصفية حسب البحث
+                if (currentFilters.search !== '') {
+                    const searchTerm = currentFilters.search;
+                    if (!mod.title.toLowerCase().includes(searchTerm) && 
+                        !mod.type.toLowerCase().includes(searchTerm)) {
+                        return false;
+                    }
+                }
+                
+                return true;
+            });
+            
+            // عرض النتائج المصفاة
+            renderMods(filteredMods);
+        }
+
+        // عرض المودات في الصفحة
+        function renderMods(mods) {
+            const container = document.getElementById('mods-container');
+            container.innerHTML = '';
+            
+            if (mods.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <p>لم يتم العثور على مودات تطابق معايير البحث</p>
+                    </div>
+                `;
+                return;
             }
-        });
+            
+            mods.forEach(mod => {
+                const modElement = document.createElement('div');
+                modElement.className = 'content-card';
+                modElement.innerHTML = `
+                    <div class="card-image">
+                        <img src="${mod.image}" alt="${mod.title}">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${mod.title}</h3>
+                        <div class="card-meta">
+                            <span>${mod.version}</span>
+                            <span class="card-type">${mod.type}</span>
+                        </div>
+                        <a href="${mod.downloadLink}" class="download-btn">تحميل المود</a>
+                    </div>
+                `;
+                container.appendChild(modElement);
+            });
+        }
     </script>
 </body>
 </html>

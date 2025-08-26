@@ -28,6 +28,7 @@
             overflow-x: hidden;
             position: relative;
             line-height: 1.6;
+            min-height: 100vh;
         }
 
         /* الهيدر */
@@ -298,6 +299,22 @@
             box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
         }
 
+        /* رسالة عدم وجود نتائج */
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            grid-column: 1 / -1;
+            color: var(--gray);
+            font-size: 18px;
+        }
+
+        .no-results i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            display: block;
+            color: var(--accent);
+        }
+
         /* الفوتر */
         footer {
             background: rgba(26, 26, 46, 0.95);
@@ -384,7 +401,7 @@
     <!-- الهيدر -->
     <header>
         <div class="logo">
-            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3c.wzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTI1IDVDMTQuNzg2NSA1IDYuNSAxMy4yODY1IDYuNSAyMy41QzYuNSAzMy43MTM1IDE0Ljc4NjUgNDIgMjUgNDJDMzUuMjEzNSA0yA0My41IDMzLjcxMzUgNDMuNSAyMy41QzQzLjUgMTMuMjg2NSAzNS4yMTM1IDUgMjUgNVoiIGZpbGw9InVybCgjcGFpbnQwX2xpbmVhcikiLz4KPHBhdGggZD0iTTM1IDIwTDI1IDMwTDE1IDIwIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDBfbGluZWFyIiB4MT0iMjUiIHkxPSI1IiB4Mj0iMjUiIHkyPSI0MiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjNmExMWNiIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzI1NzVmYyIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=" alt="Minelux Logo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiByeD0iMTAiIGZpbGw9InVybCgjcGFpbnQwX2xpbmVhcikiLz4KPHBhdGggZD0iTTE1IDM1TDI1IDI1TDM1IDE1IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8cGF0aCBkPSJNMTUgMTVMMzUgMzUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MF9saW5lYXIiIHgxPSIyNSIgeTE9IjAiIHgyPSIyNSIgeTI9IjUwIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIHN0b3AtY29sb3I9IiM2YTExY2IiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMjU3NWZjIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPC9zdmc+Cg==" alt="Minelux Logo">
             <span class="logo-text">Minelux</span>
         </div>
         
@@ -405,7 +422,7 @@
             <!-- مربع البحث -->
             <div class="search-box">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="ابحث عن عالم...">
+                <input type="text" id="search-input" placeholder="ابحث عن عالم...">
             </div>
             
             <!-- قسم العوالم -->
@@ -414,21 +431,21 @@
                 
                 <div class="filter-group">
                     <h3>الإصدار</h3>
-                    <div class="filter-options">
-                        <button class="filter-btn active">الكل</button>
-                        <button class="filter-btn">1.20+</button>
-                        <button class="filter-btn">1.21+</button>
+                    <div class="filter-options" data-filter="version">
+                        <button class="filter-btn active" data-value="all">الكل</button>
+                        <button class="filter-btn" data-value="1.20">1.20+</button>
+                        <button class="filter-btn" data-value="1.21">1.21+</button>
                     </div>
                 </div>
                 
                 <div class="filter-group">
                     <h3>النوع</h3>
-                    <div class="filter-options">
-                        <button class="filter-btn active">الكل</button>
-                        <button class="filter-btn">مغامرة</button>
-                        <button class="filter-btn">بقاء</button>
-                        <button class="filter-btn">ألغاز</button>
-                        <button class="filter-btn">منافسة</button>
+                    <div class="filter-options" data-filter="type">
+                        <button class="filter-btn active" data-value="all">الكل</button>
+                        <button class="filter-btn" data-value="مغامرة">مغامرة</button>
+                        <button class="filter-btn" data-value="بقاء">بقاء</button>
+                        <button class="filter-btn" data-value="ألغاز">ألغاز</button>
+                        <button class="filter-btn" data-value="منافسة">منافسة</button>
                     </div>
                 </div>
             </div>
@@ -438,96 +455,8 @@
         <main class="content">
             <h2 class="section-title">أفضل العوالم</h2>
             
-            <div class="content-grid">
-                <!-- عالم 1 -->
-                <div class="content-card">
-                    <div class="card-image">
-                        <img src="https://i.imgur.com/8aZbQnL.jpeg" alt="World 1">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">عالم المغامرات الأسطوري</h3>
-                        <div class="card-meta">
-                            <span>1.21.92+</span>
-                            <span class="card-type">مغامرة</span>
-                        </div>
-                        <a href="https://example.com/download/world1" class="download-btn">تحميل العالم</a>
-                    </div>
-                </div>
-                
-                <!-- عالم 2 -->
-                <div class="content-card">
-                    <div class="card-image">
-                        <img src="https://i.imgur.com/8aZbQnL.jpeg" alt="World 2">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">جزيرة البقاء المتطرفة</h3>
-                        <div class="card-meta">
-                            <span>1.20.1+</span>
-                            <span class="card-type">بقاء</span>
-                        </div>
-                        <a href="https://example.com/download/world2" class="download-btn">تحميل العالم</a>
-                    </div>
-                </div>
-
-                <!-- عالم 3 -->
-                <div class="content-card">
-                    <div class="card-image">
-                        <img src="https://i.imgur.com/8aZbQnL.jpeg" alt="World 3">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">متاهة الألغاز الخفية</h3>
-                        <div class="card-meta">
-                            <span>1.21+</span>
-                            <span class="card-type">ألغاز</span>
-                        </div>
-                        <a href="https://example.com/download/world3" class="download-btn">تحميل العالم</a>
-                    </div>
-                </div>
-
-                <!-- عالم 4 -->
-                <div class="content-card">
-                    <div class="card-image">
-                        <img src="https://i.imgur.com/8aZbQnL.jpeg" alt="World 4">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">مدينة الأبطال الخارقين</h3>
-                        <div class="card-meta">
-                            <span>1.20.4+</span>
-                            <span class="card-type">مغامرة</span>
-                        </div>
-                        <a href="https://example.com/download/world4" class="download-btn">تحميل العالم</a>
-                    </div>
-                </div>
-
-                <!-- عالم 5 -->
-                <div class="content-card">
-                    <div class="card-image">
-                        <img src="https://i.imgur.com/8aZbQnL.jpeg" alt="World 5">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">ساحة المعارك الملحمية</h3>
-                        <div class="card-meta">
-                            <span>1.21+</span>
-                            <span class="card-type">منافسة</span>
-                        </div>
-                        <a href="https://example.com/download/world5" class="download-btn">تحميل العالم</a>
-                    </div>
-                </div>
-
-                <!-- عالم 6 -->
-                <div class="content-card">
-                    <div class="card-image">
-                        <img src="https://i.imgur.com/8aZbQnL.jpeg" alt="World 6">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">القلعة المسحورة</h3>
-                        <div class="card-meta">
-                            <span>1.20.2+</span>
-                            <span class="card-type">ألغاز</span>
-                        </div>
-                        <a href="https://example.com/download/world6" class="download-btn">تحميل العالم</a>
-                    </div>
-                </div>
+            <div class="content-grid" id="worlds-container">
+                <!-- سيتم ملء هذا القسم ديناميكيًا باستخدام JavaScript -->
             </div>
         </main>
     </div>
@@ -543,31 +472,182 @@
     </footer>
 
     <script>
-        // كود JavaScript للتحكم في التصفية
+        // بيانات العوالم
+        const worldsData = [
+            {
+                id: 1,
+                title: "عالم المغامرات الأسطوري",
+                version: "1.21.92+",
+                type: "مغامرة",
+                image: "https://i.imgur.com/8aZbQnL.jpeg",
+                downloadLink: "https://example.com/download/world1"
+            },
+            {
+                id: 2,
+                title: "جزيرة البقاء المتطرفة",
+                version: "1.20.1+",
+                type: "بقاء",
+                image: "https://i.imgur.com/8aZbQnL.jpeg",
+                downloadLink: "https://example.com/download/world2"
+            },
+            {
+                id: 3,
+                title: "متاهة الألغاز الخفية",
+                version: "1.21+",
+                type: "ألغاز",
+                image: "https://i.imgur.com/8aZbQnL.jpeg",
+                downloadLink: "https://example.com/download/world3"
+            },
+            {
+                id: 4,
+                title: "مدينة الأبطال الخارقين",
+                version: "1.20.4+",
+                type: "مغامرة",
+                image: "https://i.imgur.com/8aZbQnL.jpeg",
+                downloadLink: "https://example.com/download/world4"
+            },
+            {
+                id: 5,
+                title: "ساحة المعارك الملحمية",
+                version: "1.21+",
+                type: "منافسة",
+                image: "https://i.imgur.com/8aZbQnL.jpeg",
+                downloadLink: "https://example.com/download/world5"
+            },
+            {
+                id: 6,
+                title: "القلعة المسحورة",
+                version: "1.20.2+",
+                type: "ألغاز",
+                image: "https://i.imgur.com/8aZbQnL.jpeg",
+                downloadLink: "https://example.com/download/world6"
+            }
+        ];
+
+        // متغيرات التصفية
+        let currentFilters = {
+            version: 'all',
+            type: 'all',
+            search: ''
+        };
+
+        // تهيئة الصفحة
         document.addEventListener('DOMContentLoaded', function() {
-            // تفعيل أزرار التصفية
+            // عرض العوالم أول مرة
+            renderWorlds(worldsData);
+            
+            // إعداد أحداث التصفية
+            setupFilterEvents();
+            
+            // إعداد حدث البحث
+            setupSearchEvent();
+        });
+
+        // إعداد أحداث التصفية
+        function setupFilterEvents() {
             const filterButtons = document.querySelectorAll('.filter-btn');
+            
             filterButtons.forEach(button => {
                 button.addEventListener('click', function() {
+                    const filterGroup = this.closest('.filter-options');
+                    const filterType = filterGroup.dataset.filter;
+                    const filterValue = this.dataset.value;
+                    
                     // إزالة النشاط من جميع الأزرار في المجموعة
-                    const parentSection = this.closest('.filter-options');
-                    const siblings = parentSection.querySelectorAll('.filter-btn');
+                    const siblings = filterGroup.querySelectorAll('.filter-btn');
                     siblings.forEach(btn => btn.classList.remove('active'));
                     
                     // إضافة النشاط للزر المحدد
                     this.classList.add('active');
                     
-                    // هنا يمكنك إضافة كود التصفية الفعلي
-                    filterContent();
+                    // تحديث الفلتر الحالي
+                    currentFilters[filterType] = filterValue;
+                    
+                    // تطبيق التصفية
+                    applyFilters();
                 });
             });
+        }
+
+        // إعداد حدث البحث
+        function setupSearchEvent() {
+            const searchInput = document.getElementById('search-input');
             
-            // وظيفة تصفية المحتوى
-            function filterContent() {
-                // كود التصفية سيتم تنفيذه هنا
-                console.log('تم تصفية المحتوى حسب الاختيارات');
+            searchInput.addEventListener('input', function() {
+                currentFilters.search = this.value.trim().toLowerCase();
+                applyFilters();
+            });
+        }
+
+        // تطبيق جميع عوامل التصفية
+        function applyFilters() {
+            let filteredWorlds = worldsData.filter(world => {
+                // تصفية حسب الإصدار
+                if (currentFilters.version !== 'all') {
+                    const versionFilter = currentFilters.version;
+                    if (versionFilter === '1.20' && !world.version.includes('1.20')) {
+                        return false;
+                    }
+                    if (versionFilter === '1.21' && !world.version.includes('1.21')) {
+                        return false;
+                    }
+                }
+                
+                // تصفية حسب النوع
+                if (currentFilters.type !== 'all' && world.type !== currentFilters.type) {
+                    return false;
+                }
+                
+                // تصفية حسب البحث
+                if (currentFilters.search !== '') {
+                    const searchTerm = currentFilters.search;
+                    if (!world.title.toLowerCase().includes(searchTerm) && 
+                        !world.type.toLowerCase().includes(searchTerm)) {
+                        return false;
+                    }
+                }
+                
+                return true;
+            });
+            
+            // عرض النتائج المصفاة
+            renderWorlds(filteredWorlds);
+        }
+
+        // عرض العوالم في الصفحة
+        function renderWorlds(worlds) {
+            const container = document.getElementById('worlds-container');
+            container.innerHTML = '';
+            
+            if (worlds.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <p>لم يتم العثور على عوالم تطابق معايير البحث</p>
+                    </div>
+                `;
+                return;
             }
-        });
+            
+            worlds.forEach(world => {
+                const worldElement = document.createElement('div');
+                worldElement.className = 'content-card';
+                worldElement.innerHTML = `
+                    <div class="card-image">
+                        <img src="${world.image}" alt="${world.title}">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${world.title}</h3>
+                        <div class="card-meta">
+                            <span>${world.version}</span>
+                            <span class="card-type">${world.type}</span>
+                        </div>
+                        <a href="${world.downloadLink}" class="download-btn">تحميل العالم</a>
+                    </div>
+                `;
+                container.appendChild(worldElement);
+            });
+        }
     </script>
 </body>
 </html>
